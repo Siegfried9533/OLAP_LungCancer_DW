@@ -1,0 +1,40 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\PersonalDocuments\\N\u0103m 3\\HK1\\H\u1ECDc th\u00EAm\\OLAP - IS217\\\u0110\u1ED3 \u00E1n nh\u00F3m\\SSAS_DW\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{DCFC86B0-EF8C-7D33-4CE1-A77DE9357914}|SSAS_DW\\SSAS_DW.dwproj|D:\\PersonalDocuments\\N\u0103m 3\\HK1\\H\u1ECDc th\u00EAm\\OLAP - IS217\\\u0110\u1ED3 \u00E1n nh\u00F3m\\SSAS_DW\\SSAS_DW\\Lung Cancer DW.cube||{B4191D15-2D32-45F2-906F-E91BBAAA6059}|Design",
+      "RelativeMoniker": "D:0:0:{DCFC86B0-EF8C-7D33-4CE1-A77DE9357914}|SSAS_DW\\SSAS_DW.dwproj|solutionrelative:SSAS_DW\\Lung Cancer DW.cube||{B4191D15-2D32-45F2-906F-E91BBAAA6059}|Design"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Lung Cancer DW.cube [Design]",
+              "DocumentMoniker": "D:\\PersonalDocuments\\N\u0103m 3\\HK1\\H\u1ECDc th\u00EAm\\OLAP - IS217\\\u0110\u1ED3 \u00E1n nh\u00F3m\\SSAS_DW\\SSAS_DW\\Lung Cancer DW.cube",
+              "RelativeDocumentMoniker": "SSAS_DW\\Lung Cancer DW.cube",
+              "ToolTip": "D:\\PersonalDocuments\\N\u0103m 3\\HK1\\H\u1ECDc th\u00EAm\\OLAP - IS217\\\u0110\u1ED3 \u00E1n nh\u00F3m\\SSAS_DW\\SSAS_DW\\Lung Cancer DW.cube [Design]",
+              "RelativeToolTip": "SSAS_DW\\Lung Cancer DW.cube [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-11-13T10:48:07.811Z",
+              "EditorCaption": " [Design]"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

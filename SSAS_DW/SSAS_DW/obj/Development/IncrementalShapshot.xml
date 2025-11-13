@@ -1,0 +1,82 @@
+﻿<DeploymentSnapshot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ddl2="http://schemas.microsoft.com/analysisservices/2003/engine/2" xmlns:ddl2_2="http://schemas.microsoft.com/analysisservices/2003/engine/2/2" xmlns:ddl100_100="http://schemas.microsoft.com/analysisservices/2008/engine/100/100" xmlns:ddl200="http://schemas.microsoft.com/analysisservices/2010/engine/200" xmlns:ddl200_200="http://schemas.microsoft.com/analysisservices/2010/engine/200/200" xmlns:ddl300="http://schemas.microsoft.com/analysisservices/2011/engine/300" xmlns:ddl300_300="http://schemas.microsoft.com/analysisservices/2011/engine/300/300" xmlns:ddl400="http://schemas.microsoft.com/analysisservices/2012/engine/400" xmlns:ddl400_400="http://schemas.microsoft.com/analysisservices/2012/engine/400/400" xmlns:ddl500="http://schemas.microsoft.com/analysisservices/2013/engine/500" xmlns:ddl500_500="http://schemas.microsoft.com/analysisservices/2013/engine/500/500" xmlns:dwd="http://schemas.microsoft.com/DataWarehouse/Designer/1.0">
+  <Target>
+    <Database>SSAS_DW</Database>
+    <Server>LAPTOP-L7E3S68N\SQL2022DEV</Server>
+    <ConnectionString>Data Source=LAPTOP-L7E3S68N\SQL2022DEV;Timeout=0</ConnectionString>
+  </Target>
+  <Options>
+    <TransactionalDeployment>false</TransactionalDeployment>
+    <PartitionDeployment>DeployPartitions</PartitionDeployment>
+    <RoleDeployment>DeployRolesRetainMembers</RoleDeployment>
+    <ProcessingOption>DoNotProcess</ProcessingOption>
+    <OutputScript></OutputScript>
+    <ImpactAnalysisFile></ImpactAnalysisFile>
+    <ConfigurationSettingsDeployment>Deploy</ConfigurationSettingsDeployment>
+    <OptimizationSettingsDeployment>Deploy</OptimizationSettingsDeployment>
+    <WriteBackTableCreation>UseExisting</WriteBackTableCreation>
+  </Options>
+  <Snapshot>
+    <ObjectSnapshots>
+      <ObjectSnapshot>
+        <Type>Microsoft.AnalysisServices.RelationalDataSource</Type>
+        <TimeStamp>tJee+n6je8XD6Seb4fR/wHBSib8=11/13/2025 2:54:30 PM11/13/2025 2:54:30 PM</TimeStamp>
+        <ID>
+          <String>Lung Cancer DW</String>
+        </ID>
+      </ObjectSnapshot>
+      <ObjectSnapshot>
+        <Type>Microsoft.AnalysisServices.DataSourceView</Type>
+        <TimeStamp>9ADJewRHcIltupOWJf3PTeY0YRE=11/13/2025 2:54:45 PM11/13/2025 2:54:44 PM</TimeStamp>
+        <ID>
+          <String>Lung Cancer DW</String>
+        </ID>
+      </ObjectSnapshot>
+      <ObjectSnapshot>
+        <Type>Microsoft.AnalysisServices.Dimension</Type>
+        <TimeStamp>KshBBp7RC7qa5VD0f7hudjZkInQ=11/13/2025 2:55:12 PM11/13/2025 2:55:12 PM</TimeStamp>
+        <ID>
+          <String>DIM CANCER STAGE</String>
+        </ID>
+      </ObjectSnapshot>
+      <ObjectSnapshot>
+        <Type>Microsoft.AnalysisServices.Dimension</Type>
+        <TimeStamp>vhemyNa9hqc3yRPIOfP3oa1zDb0=11/13/2025 3:36:44 PM11/13/2025 2:55:33 PM</TimeStamp>
+        <ID>
+          <String>DIM PATIENT</String>
+        </ID>
+      </ObjectSnapshot>
+      <ObjectSnapshot>
+        <Type>Microsoft.AnalysisServices.Dimension</Type>
+        <TimeStamp>+GAQuhNYbQIFG1TXE/1iBlefdu8=11/13/2025 2:55:44 PM11/13/2025 2:55:44 PM</TimeStamp>
+        <ID>
+          <String>DIM TREATMENT</String>
+        </ID>
+      </ObjectSnapshot>
+      <ObjectSnapshot>
+        <Type>Microsoft.AnalysisServices.Dimension</Type>
+        <TimeStamp>r7GkoVqf1KFAm0tPpu7UwyikNRs=11/13/2025 5:24:14 PM11/13/2025 5:21:51 PM</TimeStamp>
+        <ID>
+          <String>DIM DATE</String>
+        </ID>
+      </ObjectSnapshot>
+      <ObjectSnapshot>
+        <Type>Microsoft.AnalysisServices.Cube</Type>
+        <TimeStamp>mpZNN3AATAnUI3hRNz1BwHeuGPU=11/13/2025 9:27:22 PM11/13/2025 5:24:54 PMNVRe+KW8vEjuCista4/Zh6ZknWc=11/13/2025 5:24:54 PM11/13/2025 5:24:54 PM</TimeStamp>
+        <ID>
+          <String>Lung Cancer DW</String>
+        </ID>
+      </ObjectSnapshot>
+    </ObjectSnapshots>
+    <DatabaseSnapshot>
+      <Type>Microsoft.AnalysisServices.Database</Type>
+      <TimeStamp>mt9z+DRlzuiCXYjqqF0ar6wkd6c=11/13/2025 2:54:14 PM11/13/2025 2:54:14 PM</TimeStamp>
+      <ID>
+        <String>SSAS_DW</String>
+      </ID>
+    </DatabaseSnapshot>
+    <Granularity>Coarse</Granularity>
+  </Snapshot>
+  <AssemblyLocations />
+  <ProcessingComplete>true</ProcessingComplete>
+  <LastDeployed>2025-11-13T14:27:31.636667Z</LastDeployed>
+</DeploymentSnapshot>

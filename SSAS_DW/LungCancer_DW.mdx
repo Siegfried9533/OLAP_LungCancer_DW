@@ -1,0 +1,241 @@
+﻿--1. Tổng số ca được chẩn đoán ở Đức theo từng năm
+SELECT 
+	[Measures].[COUNT DIAGNOSIS] ON COLUMNS,
+FILTER(
+	[DIAGNOSIS DATE].[YEAR].Children,
+	[Measures].[COUNT DIAGNOSIS] > 0
+	) ON ROWS
+FROM
+	[Lung Cancer DW]
+WHERE 
+	[DIM PATIENT].[COUNTRY NAME].&[Germany];
+
+--2. Tổng số ca sống sót (Total Survived) vào năm 2020 là bao nhiêu?
+SELECT
+	[Measures].[TOTAL IS SURVIVED] ON COLUMNS
+FROM
+	[Lung Cancer DW]
+WHERE
+	(
+		[TREATMENT END DATE].[YEAR].&[2020],
+		[TREATMENT START DATE].[YEAR].&[2020]
+	);
+
+--3. Có bao nhiêu ca được chẩn đoán (Diagnosis) vào năm 2018?
+SELECT 
+    { [Measures].[COUNT DIAGNOSIS] } ON COLUMNS
+FROM 
+    [Lung Cancer DW]
+WHERE 
+    [DIAGNOSIS DATE].[YEAR].&[2018];
+
+--4. Có bao nhiêu ca điều trị kết thúc (End Date) vào cuối tuần (Weekend)?
+SELECT 
+    { [Measures].[COUNT TREATMENT OUTCOME] } ON COLUMNS
+FROM 
+    [Lung Cancer DW]
+WHERE 
+    ( [TREATMENT END DATE].[IS WEEKEND].&[Yes] );
+
+--5. Tỷ lệ sống sót (Survival Rate) theo từng Giai đoạn Ung thư (Stage Name)?
+SELECT
+	[Measures].[SURVIVAL_RATE] ON COLUMNS,
+NON EMPTY
+	--[DIM CANCER STAGE].[STAGE NAME].CHILDREN ON ROWS
+	[TREATMENT START DATE].[YEAR].CHILDREN ON ROWS
+FROM
+	[Lung Cancer DW]
+
+--6. BMI trung bình (Average BMI) theo từng Tình trạng Hút thuốc (Smoking Status)?
+SELECT
+	[Measures].[AVG_BMI] ON COLUMNS,
+NON EMPTY
+	[DIM PATIENT].[SMOKING STATUS].CHILDREN ON ROWS
+FROM
+	[Lung Cancer DW]
+
+--7: Top 10 Quốc gia (Country) có Tổng số ca chẩn đoán cao nhất?
+SELECT 
+    [Measures].[COUNT DIAGNOSIS] ON COLUMNS,
+NON EMPTY 
+    TopCount(
+        [DIM PATIENT].[COUNTRY NAME].[COUNTRY NAME].Members,
+        10,
+        [Measures].[COUNT DIAGNOSIS]
+    ) ON ROWS
+FROM 
+    [Lung Cancer DW]
+
+--8: Thời gian điều trị trung bình (Average Treatment Duration) cho 3 loại điều trị (Chemo, Surgery, Combined)?
+SELECT 
+    { [Measures].[Measures].[AVG_TREATMENT_DURATION_DAYS]} ON COLUMNS,
+NON EMPTY 
+    { 
+      [DIM TREATMENT].[TREATMENT TYPE].&[Chemotherapy],
+      [DIM TREATMENT].[TREATMENT TYPE].&[Surgery],
+      [DIM TREATMENT].[TREATMENT TYPE].&[Combined]
+    } ON ROWS
+FROM 
+    [Lung Cancer DW]
+
+--9. Ma trận (Matrix): Tổng số ca sống sót (Total Survived) theo Giới tính (Gender) và Nhóm Cholesterol (Cholesterol Category)?
+SELECT 
+NON EMPTY 
+    { [DIM PATIENT].[CHOLESTEROL CATEGORY].CHILDREN } ON COLUMNS,
+NON EMPTY 
+    { [DIM PATIENT].[GENDER].CHILDREN } ON ROWS
+FROM 
+    [Lung Cancer DW]
+WHERE
+    [Measures].[TOTAL IS SURVIVED];
+
+--10. Tỷ lệ sống sót (Survival Rate) của Năm 2016 so với Năm 2015?
+SELECT 
+     [Measures].[SURVIVAL_RATE] ON COLUMNS,
+NON EMPTY 
+    { 
+      [TREATMENT END DATE].[YEAR].&[2015],
+      [TREATMENT END DATE].[YEAR].&[2016]
+    } ON ROWS
+FROM 
+    [Lung Cancer DW]
+
+--11: Top 3 Quốc gia (Country) có Tỷ lệ Sống sót (SURVIVAL_RATE) cao nhất, nhưng chỉ tính cho các ca được chẩn đoán là 'Stage IV'?
+WITH 
+    SET [Stage IV Patients] AS
+    FILTER(
+        [DIM PATIENT].[PATIENT ID].CHILDREN,
+        ( [Measures].[COUNT DIAGNOSIS], [DIM CANCER STAGE].[STAGE NAME].&[Stage IV] ) > 0
+    )
+    MEMBER [Measures].[Survival Rate (Stage IV Only)] AS
+    (
+        SUM( [Stage IV Patients], [Measures].[TOTAL IS SURVIVED] )
+        /
+        SUM( [Stage IV Patients], [Measures].[COUNT TREATMENT OUTCOME] )
+    )
+SELECT 
+    [Measures].[SURVIVAL RATE (Stage IV Only)] ON COLUMNS,
+
+NON EMPTY
+    TopCount(
+        [DIM PATIENT].[COUNTRY NAME].[COUNTRY NAME].Members,
+        3,
+        [Measures].[SURVIVAL RATE (Stage IV Only)]
+    ) ON ROWS
+FROM 
+    [Lung Cancer DW]
+
+--12: Tìm các Giai đoạn Ung thư (Cancer Stages) có Tỷ lệ Sống sót cao hơn mức trung bình chung (Average Survival Rate) của toàn bộ?
+SELECT
+    [Measures].[SURVIVAL_RATE] ON COLUMNS,
+NON EMPTY
+    FILTER(
+        [DIM CANCER STAGE].[STAGE NAME].CHILDREN,
+        [Measures].[SURVIVAL_RATE]
+        >
+        AVG(
+            [DIM CANCER STAGE].[STAGE NAME].CHILDREN,
+            [Measures].[SURVIVAL_RATE]
+        )
+    ) ON ROWS
+FROM
+    [Lung Cancer DW]
+
+--13. Top 3 Quốc gia (Country) có BMI Trung bình cao nhất, nhưng chỉ tính cho những người có Tiền sử Gia đình (Family History = 'Yes')?
+WITH 
+    MEMBER [Measures].[Avg BMI (Family History Yes)] AS
+    ( [Measures].[AVG_BMI], [DIM PATIENT].[FAMILY HISTORY].&[Yes] )
+SELECT
+    {
+      [Measures].[AVG_BMI],  
+      [Measures].[Avg BMI (Family History Yes)]
+    } ON COLUMNS,
+
+NON EMPTY
+    TOPCOUNT(
+        [DIM PATIENT].[COUNTRY NAME].[COUNTRY NAME].Members,
+        
+        3,
+        [Measures].[Avg BMI (Family History Yes)]
+    ) ON ROWS
+FROM
+    [Lung Cancer DW]
+
+--14. (Phân tích chéo) Tổng số ca chẩn đoán (Diagnosis Count) cho những bệnh nhân có thời gian điều trị (Treatment Duration) dài hơn 500 ngày?
+WITH
+    SET [LongTreatmentPatients] AS
+    FILTER(
+        [DIM PATIENT].[PATIENT ID].[PATIENT ID].Members,
+        [Measures].[AVG_TREATMENT_DURATION_DAYS] > 500
+    )
+    MEMBER [Measures].[Diagnosis Count (Long Treatment)] AS
+    SUM(
+        [LongTreatmentPatients], 
+        [Measures].[COUNT DIAGNOSIS]
+    )
+SELECT 
+    { [Measures].[Diagnosis Count (Long Treatment)] } ON COLUMNS
+FROM 
+    [Lung Cancer DW]
+
+--15. Nhóm độ tuổi trung bình mắc bệnh nhiều nhất trong từng năm
+WITH
+    MEMBER [DIM PATIENT].[AGE].[0-19] AS
+    AGGREGATE(
+        FILTER(
+            [DIM PATIENT].[AGE].[AGE].Members,
+            CInt([DIM PATIENT].[AGE].CurrentMember.Name) >= 0 AND CInt([DIM PATIENT].[AGE].CurrentMember.Name) <= 19
+        )
+    )
+
+    MEMBER [DIM PATIENT].[AGE].[20-39] AS
+    AGGREGATE(
+        FILTER(
+            [DIM PATIENT].[AGE].[AGE].Members,
+            CInt([DIM PATIENT].[AGE].CurrentMember.Name) >= 20 AND CInt([DIM PATIENT].[AGE].CurrentMember.Name) <= 39
+        )
+    )
+
+    MEMBER [DIM PATIENT].[AGE].[40-59] AS
+    AGGREGATE(
+        FILTER(
+            [DIM PATIENT].[AGE].[AGE].Members,
+            CInt([DIM PATIENT].[AGE].CurrentMember.Name) >= 40 AND CInt([DIM PATIENT].[AGE].CurrentMember.Name) <= 59
+        )
+    )
+
+    MEMBER [DIM PATIENT].[AGE].[60+] AS
+    AGGREGATE(
+        FILTER(
+            [DIM PATIENT].[AGE].[AGE].Members,
+            CInt([DIM PATIENT].[AGE].CurrentMember.Name) >= 60
+        )
+    )
+    SET [AgeGroups] AS {
+        [DIM PATIENT].[AGE].[0-19],
+        [DIM PATIENT].[AGE].[20-39],
+        [DIM PATIENT].[AGE].[40-59],
+        [DIM PATIENT].[AGE].[60-79],
+        [DIM PATIENT].[AGE].[80+]
+    }
+SELECT
+    { [Measures].[COUNT DIAGNOSIS] } ON COLUMNS,
+    GENERATE(
+        [DIAGNOSIS DATE].[YEAR].children,
+        {
+            (
+                [DIAGNOSIS DATE].[YEAR].CurrentMember*[AgeGroups]    
+                --TOPCOUNT(                                
+                    --[AgeGroups],
+                   -- 2,
+                   -- ([Measures].[COUNT DIAGNOSIS]
+               -- ).Item(0)
+            )
+        }
+    ) ON ROWS
+FROM [Lung Cancer DW];
+
+
+
+
+
