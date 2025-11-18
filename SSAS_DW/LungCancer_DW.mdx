@@ -37,7 +37,7 @@ FROM
 WHERE 
     ( [TREATMENT END DATE].[IS WEEKEND].&[Yes] );
 
---5. Tỷ lệ sống sót (Survival Rate) theo từng Giai đoạn Ung thư (Stage Name)?
+--5.Tỷ lệ sống sót theo từng năm
 SELECT
 	[Measures].[SURVIVAL_RATE] ON COLUMNS,
 NON EMPTY
@@ -89,13 +89,12 @@ FROM
 WHERE
     [Measures].[TOTAL IS SURVIVED];
 
---10. Tỷ lệ sống sót (Survival Rate) của Năm 2016 so với Năm 2015?
+--10. Tỷ lệ sống sót (Survival Rate) theo từng giai đoạn ung thư
 SELECT 
      [Measures].[SURVIVAL_RATE] ON COLUMNS,
 NON EMPTY 
     { 
-      [TREATMENT END DATE].[YEAR].&[2015],
-      [TREATMENT END DATE].[YEAR].&[2016]
+      [DIM CANCER STAGE].[STAGE NAME].CHILDREN
     } ON ROWS
 FROM 
     [Lung Cancer DW]
